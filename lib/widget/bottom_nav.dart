@@ -22,10 +22,10 @@ class BottomNavBar extends StatelessWidget {
         BottomNavigationBar(
           currentIndex: currentIndex,
           onTap: (index) {
-            if (index == 3) {
-              onLogout(); // Call the logout function if index is 3
+            if (index == 4) {
+              onLogout(); 
             } else {
-              onTap(index); // Otherwise, call the regular onTap
+              onTap(index); 
             }
           },
           selectedItemColor: Colors.orange,
@@ -36,6 +36,10 @@ class BottomNavBar extends StatelessWidget {
               label: 'Leaderboard',
             ),
             BottomNavigationBarItem(
+              icon: Icon(Icons.edit_document),
+              label: 'Report',
+            ),
+            BottomNavigationBarItem(
               icon: Icon(Icons.person),
               label: 'Profile',
             ),
@@ -44,7 +48,6 @@ class BottomNavBar extends StatelessWidget {
               label: 'Streak',
             ),
             BottomNavigationBarItem(
-              // New Logout item
               icon: Icon(Icons.logout),
               label: 'Logout',
             ),

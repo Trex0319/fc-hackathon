@@ -30,42 +30,87 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: const Text('Login', style: TextStyle(color: Colors.white)),
-        centerTitle: true,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF00B4DB), Color(0xFF0083B0)], // Light to dark blue
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+      backgroundColor: Colors.white,
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildTextField(_emailController, 'Email', Icons.email),
-              const SizedBox(height: 20),
-              _buildTextField(_passwordController, 'Password', Icons.lock, obscureText: true),
-              const SizedBox(height: 30),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  backgroundColor: Colors.white.withOpacity(0.9),
+              // Logo
+              Image.network(
+                'images/logo.png',
+                height: 300,
+              ),
+              const SizedBox(height: 15),
+              
+              // Welcome Text
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.orange, width: 1.5),
                 ),
-                onPressed: _login,
-                child: const Text(
-                  'Login',
-                  style: TextStyle(color: Color(0xFF0083B0), fontWeight: FontWeight.bold),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Welcome Back!',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.orange,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    _buildTextField(
+                      _emailController,
+                      'Enter your email address',
+                      'Email',
+                    ),
+                    const SizedBox(height: 20),
+                    _buildTextField(
+                      _passwordController,
+                      'Enter your password',
+                      'Password',
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 20),
+                    
+                    // Login Button
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          backgroundColor: Colors.orange,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        onPressed: _login,
+                        child: const Text(
+                          'Log in',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    
+                    Center(
+                      child: TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          'Register',
+                          style: TextStyle(color: Colors.orange),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -77,34 +122,39 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildTextField(
     TextEditingController controller,
-    String labelText,
-    IconData icon, {
+    String hintText,
+    String labelText, {
     bool obscureText = false,
   }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.9),
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 10,
-            offset: Offset(0, 4),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          labelText,
+          style: const TextStyle(
+            color: Colors.orange,
+            fontSize: 14,
           ),
-        ],
-      ),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          prefixIcon: Icon(icon, color: const Color(0xFF0083B0)),
-          labelText: labelText,
-          labelStyle: const TextStyle(color: Color(0xFF0083B0)),
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         ),
-        obscureText: obscureText,
-        style: const TextStyle(color: Color(0xFF0083B0)),
-      ),
+        const SizedBox(height: 5),
+        TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            hintText: hintText,
+            border: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey), // Set the border color here
+            ),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey), // Color for the default border
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue), // Color for the focused border
+            ),
+          ),
+          obscureText: obscureText,
+        )
+
+      ],
     );
   }
 }

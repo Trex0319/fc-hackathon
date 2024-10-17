@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       home: const LoginScreen(), // Set the LoginScreen as the start screen
       routes: {
         '/profile': (context) => const UserScreen(),
+        '/login': (context) => const LoginScreen()
       },
     );
   }

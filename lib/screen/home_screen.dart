@@ -4,6 +4,7 @@ import 'package:hackathon/widget/bottom_nav.dart';
 import 'package:hackathon/screen/user_screen.dart';
 import 'streak_screen.dart';
 import 'package:hackathon/main.dart';
+import 'worker_harvest_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.title});
@@ -57,10 +58,12 @@ class _HomeScreenState extends State<HomeScreen> {
       case 0:
         return _buildLeaderboard();
       case 1:
-        return const UserScreen();
+        return const WorkerHarvestInterface();
       case 2:
-        return StreakScreen();
+        return const UserScreen();
       case 3:
+        return StreakScreen();
+      case 4:
         _logout();
         return const SizedBox();
       default:

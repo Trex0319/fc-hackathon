@@ -7,17 +7,19 @@ class UserDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("${user.name}'s Profile"),
+        backgroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const CircleAvatar(
               radius: 50,
-              backgroundImage: AssetImage('images/ic.png'), // Change to actual image path
+              backgroundImage: AssetImage('images/ic.png'), 
             ),
             const SizedBox(height: 20),
             Text(
@@ -34,16 +36,16 @@ class UserDetailScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              'Position: Software Engineer', // Hardcoded, but you can expand the User class
+              'Position: Wheat Harvester', 
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             Text(
-              'Email: ${user.name.toLowerCase().replaceAll(" ", ".")}@example.com', // Mock email
+              'Email: ${user.name.toLowerCase().replaceAll(" ", ".")}@example.com', 
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 20),
             const Text(
-              'Earnings Overview', // Title for the chart
+              'Earnings Overview', 
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
