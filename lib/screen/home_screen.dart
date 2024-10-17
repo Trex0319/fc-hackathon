@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hackathon/main.dart';
+import 'package:hackathon/screen/login_screen.dart';
+import 'package:hackathon/screen/user_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.title});
@@ -22,6 +24,8 @@ class _HomeScreenState extends State<HomeScreen> {
     User("Heidi", 25, 86000),
     User("Ivan", 29, 93000),
     User("Judy", 23, 88000),
+    User("Denish", 22, 1000),
+    User("Alvin", 26, 2000)
   ];
 
   @override
@@ -31,8 +35,14 @@ class _HomeScreenState extends State<HomeScreen> {
     _users.sort((a, b) => b.earnings.compareTo(a.earnings));
   }
 
-  void _goToUserProfile() {
-    Navigator.pushNamed(context, '/profile');
+  void _goToUserProfile(User user) {
+    // Navigate to the UserDetailScreen and pass the selected user
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UserDetailScreen(user: user),
+      ),
+    );
   }
 
   void _logout() {
@@ -74,23 +84,10 @@ class _HomeScreenState extends State<HomeScreen> {
               'Age: ${_users[index].age}, Earnings: \$${_users[index].earnings}',
               style: textStyle, // Apply style to the earnings and age
             ),
+            onTap: () => _goToUserProfile(_users[index]), // Navigate on tap
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _goToUserProfile,
-        tooltip: 'Go to Profile',
-        child: const Icon(Icons.person),
-      ),
     );
   }
-}
-
-// Define the User class as needed
-class User {
-  final String name;
-  final int age;
-  final double earnings;
-
-  User(this.name, this.age, this.earnings);
 }
