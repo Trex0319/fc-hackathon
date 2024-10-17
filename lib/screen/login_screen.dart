@@ -13,7 +13,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
 
   void _login() {
-    // Hard-coded user data
     if (_emailController.text == "user@example.com" &&
         _passwordController.text == "password") {
       Navigator.pushReplacement(
@@ -31,95 +30,80 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text('Login', style: TextStyle(color: Colors.white)),
+        centerTitle: true,
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF00B4DB), Color(0xFF0083B0)], // Light to dark blue
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Placeholder for the logo
-              Container(
-                width: 150,
-                height: 150,
-                color: Colors.grey[200], // Replace with logo
-              ),
+              _buildTextField(_emailController, 'Email', Icons.email),
               const SizedBox(height: 20),
-              // Welcome back text
-              const Text(
-                'Welcome Back!',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.orange,
-                ),
-              ),
-              const SizedBox(height: 20),
-              // Email TextField
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.orange),
-                ),
-                child: TextField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your email address',
-                    border: InputBorder.none,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              _buildTextField(_passwordController, 'Password', Icons.lock, obscureText: true),
+              const SizedBox(height: 30),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
                   ),
+                  backgroundColor: Colors.white.withOpacity(0.9),
                 ),
-              ),
-              const SizedBox(height: 16),
-              // Password TextField
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.orange),
-                ),
-                child: TextField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your password',
-                    border: InputBorder.none,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              // Login button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  onPressed: _login,
-                  child: const Text('Log in'),
-                ),
-              ),
-              const SizedBox(height: 10),
-              // Forgot password
-              TextButton(
-                onPressed: () {
-                  // Implement forgot password
-                },
+                onPressed: _login,
                 child: const Text(
-                  'Forgot your password?',
-                  style: TextStyle(color: Colors.orange),
+                  'Login',
+                  style: TextStyle(color: Color(0xFF0083B0), fontWeight: FontWeight.bold),
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(
+    TextEditingController controller,
+    String labelText,
+    IconData icon, {
+    bool obscureText = false,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.9),
+        borderRadius: BorderRadius.circular(30),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 10,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          prefixIcon: Icon(icon, color: const Color(0xFF0083B0)),
+          labelText: labelText,
+          labelStyle: const TextStyle(color: Color(0xFF0083B0)),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        ),
+        obscureText: obscureText,
+        style: const TextStyle(color: Color(0xFF0083B0)),
       ),
     );
   }

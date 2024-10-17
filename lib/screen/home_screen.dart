@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hackathon/screen/user_detail_screen.dart';
 import 'package:hackathon/widget/bottom_nav.dart';
 import 'package:hackathon/screen/user_screen.dart';
 import 'streak_screen.dart';
+import 'package:hackathon/main.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.title});
@@ -14,11 +16,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<User> _users = [
-    User("John Doe", 1, 10, 28),
-    User("Jane Doe", 2, 9, 24),
-    User("You", 3, 7, 30),
-    User("Janice Doe", 4, 5, 22),
-    User("James Doe", 5, 5, 35),
+    User("John Doe", 10, 1000),
+    User("Jane Doe", 20, 900),
+    User("You", 30, 700),
+    User("Janice Doe", 40, 500),
+    User("James Doe", 50, 500),
   ];
 
   int _currentIndex = 0;
@@ -26,13 +28,23 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _users.sort((a, b) => b.score.compareTo(a.score));
+    _users.sort((a, b) => b.earnings.compareTo(a.earnings));
   }
 
   void _onNavItemTapped(int index) {
     setState(() {
       _currentIndex = index;
     });
+  }
+
+    void _goToUserProfile(User user) {
+    // Navigate to the UserDetailScreen and pass the selected user
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UserDetailScreen(user: user),
+      ),
+    );
   }
 
   void _logout() {
@@ -114,14 +126,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           const Icon(Icons.arrow_upward, color: Colors.black),
                           const SizedBox(width: 5),
-                          Text('${user.score}',
+                          Text('${user.earnings}',
                               style: const TextStyle(fontSize: 18)),
                         ],
                       )
                     : Text(
-                        '${user.score}',
+                        '${user.earnings}',
                         style: const TextStyle(fontSize: 18),
                       ),
+                      onTap: () => _goToUserProfile(_users[index]), // Navigate on tap
               );
             },
           ),
@@ -142,13 +155,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
-
-class User {
-  final String name;
-  final int position;
-  final int score;
-  final int age;
-
-  User(this.name, this.position, this.score, this.age);
 }
