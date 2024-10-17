@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hackathon/main.dart';
+import 'package:hackathon/widget/bottom_nav.dart';
+import 'package:hackathon/screen/user_screen.dart';
+import 'streak_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.title});
@@ -12,85 +14,141 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<User> _users = [
-    User("Alice", 24, 85000),
-    User("Bob", 28, 92000),
-    User("Charlie", 22, 78000),
-    User("David", 30, 95000),
-    User("Eve", 26, 91000),
-    User("Frank", 31, 100000),
-    User("Grace", 27, 97000),
-    User("Heidi", 25, 86000),
-    User("Ivan", 29, 93000),
-    User("Judy", 23, 88000),
+    User("John Doe", 1, 10, 28),
+    User("Jane Doe", 2, 9, 24),
+    User("You", 3, 7, 30),
+    User("Janice Doe", 4, 5, 22),
+    User("James Doe", 5, 5, 35),
   ];
+
+  int _currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    // Sort users based on earnings in descending order
-    _users.sort((a, b) => b.earnings.compareTo(a.earnings));
+    _users.sort((a, b) => b.score.compareTo(a.score));
   }
 
-  void _goToUserProfile() {
-    Navigator.pushNamed(context, '/profile');
+  void _onNavItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   void _logout() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    Navigator.of(context).pushReplacementNamed('/login');
+    print('User logged out');
+  }
+
+  Widget _buildCurrentScreen() {
+    switch (_currentIndex) {
+      case 0:
+        return _buildLeaderboard();
+      case 1:
+        return const UserScreen();
+      case 2:
+        return StreakScreen();
+      case 3:
+        _logout();
+        return const SizedBox();
+      default:
+        return _buildLeaderboard();
+    }
+  }
+
+  Widget _buildLeaderboard() {
+    return Column(
+      children: [
+        const SizedBox(height: 20),
+        const Text(
+          "Leaderboard",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.orange,
+          ),
+        ),
+        const SizedBox(height: 20),
+        Expanded(
+          child: ListView.builder(
+            itemCount: _users.length,
+            itemBuilder: (context, index) {
+              final user = _users[index];
+              return ListTile(
+                leading: Icon(
+                  index == 0
+                      ? Icons.emoji_events
+                      : index == 1
+                          ? Icons.emoji_events_outlined
+                          : index == 2
+                              ? Icons.emoji_events_rounded
+                              : Icons.person,
+                  color: index == 0
+                      ? Colors.orange
+                      : index == 1
+                          ? Colors.grey
+                          : index == 2
+                              ? Colors.brown
+                              : Colors.black,
+                ),
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      user.name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                        color: index < 3 ? Colors.orange : Colors.black,
+                      ),
+                    ),
+                    Text(
+                      'Age ${user.age}',
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                  ],
+                ),
+                trailing: index == 2
+                    ? Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.arrow_upward, color: Colors.black),
+                          const SizedBox(width: 5),
+                          Text('${user.score}',
+                              style: const TextStyle(fontSize: 18)),
+                        ],
+                      )
+                    : Text(
+                        '${user.score}',
+                        style: const TextStyle(fontSize: 18),
+                      ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: _logout, // Logout button in AppBar
-            tooltip: 'Logout',
-          ),
-        ],
-      ),
-      body: ListView.builder(
-        itemCount: _users.length,
-        itemBuilder: (context, index) {
-          // Define different styles for the top 3 and others
-          bool isTop3 = index < 3;
-          TextStyle textStyle = isTop3
-              ? const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue)
-              : const TextStyle(fontSize: 16, fontWeight: FontWeight.normal);
-
-          return ListTile(
-            title: Text(
-              '${index + 1}. ${_users[index].name}',
-              style: textStyle, // Apply style to the name
-            ),
-            subtitle: Text(
-              'Age: ${_users[index].age}, Earnings: \$${_users[index].earnings}',
-              style: textStyle, // Apply style to the earnings and age
-            ),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _goToUserProfile,
-        tooltip: 'Go to Profile',
-        child: const Icon(Icons.person),
+      backgroundColor: Colors.white,
+      body: _buildCurrentScreen(),
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: _currentIndex,
+        onTap: _onNavItemTapped,
+        onLogout: _logout, // Pass the logout function to the BottomNavBar
       ),
     );
   }
 }
 
-// Define the User class as needed
 class User {
   final String name;
+  final int position;
+  final int score;
   final int age;
-  final double earnings;
 
-  User(this.name, this.age, this.earnings);
+  User(this.name, this.position, this.score, this.age);
 }

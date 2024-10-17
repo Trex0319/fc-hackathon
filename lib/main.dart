@@ -14,12 +14,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Hackathon',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 225, 252, 168)),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 225, 252, 168)),
         useMaterial3: true,
       ),
       home: const LoginScreen(), // Set the LoginScreen as the start screen
       routes: {
         '/profile': (context) => const UserScreen(),
+        '/login': (context) => const LoginScreen(),
       },
     );
   }
@@ -38,10 +40,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _login() {
     // Hard-coded user data
-    if (_emailController.text == "user@example.com" && _passwordController.text == "password") {
+    if (_emailController.text == "user@example.com" &&
+        _passwordController.text == "password") {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen(title: 'Worker Ranking')),
+        MaterialPageRoute(
+            builder: (context) => const HomeScreen(title: 'Worker Ranking')),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
