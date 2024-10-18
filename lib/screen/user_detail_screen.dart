@@ -19,7 +19,7 @@ class UserDetailScreen extends StatelessWidget {
           children: [
             const CircleAvatar(
               radius: 50,
-              backgroundImage: AssetImage('images/ic.png'), 
+              backgroundImage: AssetImage('images/pg.png'), 
             ),
             const SizedBox(height: 20),
             Text(

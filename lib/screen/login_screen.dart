@@ -13,7 +13,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
 
   void _login() {
-    if (_emailController.text == "user@example.com" &&
+    if (_emailController.text == "user@gmail.com" &&
         _passwordController.text == "password") {
       Navigator.pushReplacement(
         context,
@@ -38,10 +38,10 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Logo
-              Image.network(
-                'images/logo.png',
-                height: 300,
-              ),
+              const CircleAvatar(
+              radius: 50,
+              backgroundImage: AssetImage('images/logo.png'), 
+            ),
               const SizedBox(height: 15),
               
               // Welcome Text

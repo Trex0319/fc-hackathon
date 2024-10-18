@@ -12,7 +12,7 @@ class UserScreen extends StatelessWidget {
     const String userEmail = "alice.johnson@example.com";
     const String userPosition = "Head of Farmer";
     const String profilePictureUrl =
-        'https://media.licdn.com/dms/image/v2/D5635AQFvdwR4z47u9w/profile-framedphoto-shrink_400_400/profile-framedphoto-shrink_400_400/0/1721753361659?e=1729749600&v=beta&t=rtcatDPZv9i_0ATglezpc2A4c7vaQRGxvF85WjdPYWA';
+        'https://e7.pngegg.com/pngimages/527/663/png-clipart-logo-person-user-person-icon-rectangle-photography-thumbnail.png';
 
     return Scaffold(
       backgroundColor: Colors.white,
